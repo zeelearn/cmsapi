@@ -451,4 +451,39 @@ router.post('/Deletecenterinfo', async (req, res) => {
   }
 
 });
+router.post('/UpdatefileDetails', async (req, res) => {
+  try {
+    const cmd = 'Pr_UpdatefileDetails';
+    const result = await da.executeEntity(cmd, req.body, req.headers["dbid"]);
+    console.log(result);
+    const c = await da.close();
+    res.json({
+      success: 200,
+      data: result.recordset
+    });
+  }
+  catch (error) {
+    const c = await da.close();
+    console.log(error)
+    res.status(500).json(error);
+  }
+
+});
+router.post('/GetmicrositeCount', async (req, res) => {
+  try {
+    const cmd = 'Pr_GetmicrositeCount';
+    const result = await da.executeEntity(cmd, req.body, req.headers["dbid"]);
+    const c = await da.close();
+    res.json({
+      success: 200,
+      data: result.recordset
+    });
+  }
+  catch (error) {
+    const c = await da.close();
+    console.log(error)
+    res.status(500).json(error);
+  }
+
+});
 module.exports = router;
