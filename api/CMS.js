@@ -39,7 +39,6 @@ router.post("/Getblogdata", async (req, res) => {
     res.status(500).json(error);
   }
 });
-
 router.post('/Insert_UploadFolder', async (req, res) => {
   try {
     const cmd = 'Insert_UploadFolder';
@@ -472,6 +471,144 @@ router.post('/UpdatefileDetails', async (req, res) => {
 router.post('/GetmicrositeCount', async (req, res) => {
   try {
     const cmd = 'Pr_GetmicrositeCount';
+    const result = await da.executeEntity(cmd, req.body, req.headers["dbid"]);
+    const c = await da.close();
+    res.json({
+      success: 200,
+      data: result.recordset
+    });
+  }
+  catch (error) {
+    const c = await da.close();
+    console.log(error)
+    res.status(500).json(error);
+  }
+
+});
+router.post('/Getmicrositedata', async (req, res) => {
+  try {
+    const cmd = 'usp_getmicrositedata';
+    const result = await da.executeEntity(cmd, req.body, req.headers["dbid"]);
+    var data = result.recordset[0];
+    var dataArray = JSON.parse(Object.values(data));
+    const c = await da.close();
+    res.json({
+      success: 200,
+      data: dataArray
+    });
+  }
+  catch (error) {
+    const c = await da.close();
+    console.log(error)
+    res.status(500).json(error);
+  }
+
+});
+router.post('/Getmicrositepagesadd', async (req, res) => {
+  try {
+    const cmd = 'Pr_Getmicrositepages_add';
+    const result = await da.executeEntity(cmd, req.body, req.headers["dbid"]);
+    const c = await da.close();
+    res.json({
+      success: 200,
+      data: result.recordset
+    });
+  }
+  catch (error) {
+    const c = await da.close();
+    console.log(error)
+    res.status(500).json(error);
+  }
+
+});
+router.post('/UpdateMicrositepage', async (req, res) => {
+  try {
+    const cmd = 'Pr_UpdateMicrositepage';
+    const result = await da.executeEntity(cmd, req.body, req.headers["dbid"]);
+    const c = await da.close();
+    res.json({
+      success: 200,
+      data: result.recordset
+    });
+  }
+  catch (error) {
+    const c = await da.close();
+    console.log(error)
+    res.status(500).json(error);
+  }
+
+});
+router.post('/GetmicrositePagedetails', async (req, res) => {
+  try {
+    const cmd = 'Pr_GetmicrositePagedetails';
+    const result = await da.executeEntity(cmd, req.body, req.headers["dbid"]);
+    const c = await da.close();
+    res.json({
+      success: 200,
+      data: result.recordset
+    });
+  }
+  catch (error) {
+    const c = await da.close();
+    console.log(error)
+    res.status(500).json(error);
+  }
+
+});
+router.post('/DeleteImage', async (req, res) => {
+  try {
+    const cmd = 'Pr_deleteimage';
+    const result = await da.executeEntity(cmd, req.body, req.headers["dbid"]);
+    const c = await da.close();
+    res.json({
+      success: 200,
+      data: result.recordset
+    });
+  }
+  catch (error) {
+    const c = await da.close();
+    console.log(error)
+    res.status(500).json(error);
+  }
+
+});
+router.post('/GetContetPage', async (req, res) => {
+  try {
+    const cmd = 'Pr_GetContetPage';
+    const result = await da.executeEntity(cmd, req.body, req.headers["dbid"]);
+    const c = await da.close();
+    res.json({
+      success: 200,
+      data: result.recordset
+    });
+  }
+  catch (error) {
+    const c = await da.close();
+    console.log(error)
+    res.status(500).json(error);
+  }
+
+});
+router.post('/InsertUpdateContentpage', async (req, res) => {
+  try {
+    const cmd = 'Pr_InsertUpdateContentpage';
+    const result = await da.executeEntity(cmd, req.body, req.headers["dbid"]);
+    const c = await da.close();
+    res.json({
+      success: 200,
+      data: result.recordset
+    });
+  }
+  catch (error) {
+    const c = await da.close();
+    console.log(error)
+    res.status(500).json(error);
+  }
+
+});
+router.post('/DeleteContentPage', async (req, res) => {
+  try {
+    const cmd = 'Pr_DeleteContentPage';
     const result = await da.executeEntity(cmd, req.body, req.headers["dbid"]);
     const c = await da.close();
     res.json({
