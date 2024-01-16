@@ -148,7 +148,7 @@ router.post('/Getpages', async (req, res) => {
     const c = await da.close();
     res.json({
       success: 200,
-      data: result.recordset
+      data: result.recordsets
     });
   }
   catch (error) {
@@ -592,6 +592,26 @@ router.post('/GetContetPage', async (req, res) => {
 router.post('/InsertUpdateContentpage', async (req, res) => {
   try {
     const cmd = 'Pr_InsertUpdateContentpage';
+    const result = await da.execute(cmd,[{ name: 'MenuId', value: req.body.MenuId },
+    { name: 'Name', value: req.body.Name },
+    { name: 'projectId', value: req.body.projectId },
+    { name: 'content', value:  JSON.stringify(req.body.content) }], req.headers["dbid"]);
+    const c = await da.close();
+    res.json({
+      success: 200,
+      data: result.recordset
+    });
+  }
+  catch (error) {
+    const c = await da.close();
+    console.log(error)
+    res.status(500).json(error);
+  }
+
+});
+router.post('/IUDLookup', async (req, res) => {
+  try {
+    const cmd = 'Pr_IUDLookup';
     const result = await da.executeEntity(cmd, req.body, req.headers["dbid"]);
     const c = await da.close();
     res.json({
@@ -606,9 +626,94 @@ router.post('/InsertUpdateContentpage', async (req, res) => {
   }
 
 });
-router.post('/DeleteContentPage', async (req, res) => {
+router.post('/GetLookUp', async (req, res) => {
   try {
-    const cmd = 'Pr_DeleteContentPage';
+    const cmd = 'Pr_GetLookUp';
+    const result = await da.executeEntity(cmd, req.body, req.headers["dbid"]);
+    const c = await da.close();
+    res.json({
+      success: 200,
+      data: result.recordset
+    });
+  }
+  catch (error) {
+    const c = await da.close();
+    console.log(error)
+    res.status(500).json(error);
+  }
+
+});
+router.post('/DeleteLookup', async (req, res) => {
+  try {
+    const cmd = 'Pr_DeleteLookup';
+    const result = await da.executeEntity(cmd, req.body, req.headers["dbid"]);
+    const c = await da.close();
+    res.json({
+      success: 200,
+      data: result.recordset
+    });
+  }
+  catch (error) {
+    const c = await da.close();
+    console.log(error)
+    res.status(500).json(error);
+  }
+
+});
+router.post('/GetLookupName', async (req, res) => {
+  try {
+    const cmd = 'Pr_GetLookupName';
+    const result = await da.executeEntity(cmd, req.body, req.headers["dbid"]);
+    const c = await da.close();
+    res.json({
+      success: 200,
+      data: result.recordset
+    });
+  }
+  catch (error) {
+    const c = await da.close();
+    console.log(error)
+    res.status(500).json(error);
+  }
+
+});
+router.post('/GetProjectPackageMapping', async (req, res) => {
+  try {
+    const cmd = 'Pr_getProjectPackageMapping';
+    const result = await da.executeEntity(cmd, req.body, req.headers["dbid"]);
+    const c = await da.close();
+    res.json({
+      success: 200,
+      data: result.recordset
+    });
+  }
+  catch (error) {
+    const c = await da.close();
+    console.log(error)
+    res.status(500).json(error);
+  }
+
+});
+router.post('/InsertPackage', async (req, res) => {
+  try {
+    const cmd = 'usp_insertpackage';
+    const result = await da.executeEntity(cmd, req.body, req.headers["dbid"]);
+    const c = await da.close();
+    res.json({
+      success: 200,
+      data: result.recordset
+    });
+  }
+  catch (error) {
+    const c = await da.close();
+    console.log(error)
+    res.status(500).json(error);
+  }
+
+});
+router.post('/SendCMSActivationEmail', async (req, res) => {
+  try {
+    const cmd = 'pr_SendCMSActivationEmail';
     const result = await da.executeEntity(cmd, req.body, req.headers["dbid"]);
     const c = await da.close();
     res.json({
