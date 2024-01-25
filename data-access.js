@@ -2,35 +2,62 @@ const mssql = require('mssql')
 
 let pool;
 
-const poolConfig = (dbid) =>
-{
- console.log("in pool");
- const SQL_SERVER = process.env.SQL_SERVER;
- const SQL_DATABASE = process.env.SQL_DATABASE;
- const SQL_UID = process.env.SQL_UID;
- const SQL_PWD = process.env.SQL_PWD;
- const port = process.env.sqlport;
- console.log(SQL_DATABASE);
+// const poolConfig = (dbid) =>
+// {
+//  console.log("in pool");
+//  const SQL_SERVER = process.env.SQL_SERVER;
+//  const SQL_DATABASE = process.env.SQL_DATABASE;
+//  const SQL_UID = process.env.SQL_UID;
+//  const SQL_PWD = process.env.SQL_PWD;
+//  const port = process.env.sqlport;
+//  console.log(SQL_DATABASE);
 
-    data = {
-      driver: process.env.SQL_DRIVER,
-      server: SQL_SERVER,
-      database: SQL_DATABASE,
-      user: SQL_UID,
-      port: Number(port),
-      password: SQL_PWD,
-      requestTimeout: 360000,
-      options: {
-        encrypt: false,
-        enableArithAbort: false,
-      },
-    };
+//     data = {
+//       driver: process.env.SQL_DRIVER,
+//       server: SQL_SERVER,
+//       database: SQL_DATABASE,
+//       user: SQL_UID,
+//       port: Number(port),
+//       password: SQL_PWD,
+//       requestTimeout: 360000,
+//       options: {
+//         encrypt: false,
+//         enableArithAbort: false,
+//       },
+//     };
 
 
 
-return data;
+// return data;
+// };
+const poolConfig = (dbid) => {
+    //console.log('pool dbid' + dbid);
+    const SQL_SERVER = JSON.parse(process.env.SQL_SERVER);
+    const SQL_DATABASE = JSON.parse(process.env.SQL_DATABASE);
+    const SQL_UID = JSON.parse(process.env.SQL_UID);
+    const SQL_PWD = JSON.parse(process.env.SQL_PWD);
+
+    var data = {};
+    if (dbid == undefined && dbid == null) {
+        dbid = 0;
+    }
+    if (dbid==0 || dbid==1) {
+        data = {
+            driver: process.env.SQL_DRIVER,
+            server: SQL_SERVER[dbid],
+            database: SQL_DATABASE[dbid],
+            user: SQL_UID[dbid],
+            port: 14343,
+            password: SQL_PWD[dbid],
+            requestTimeout: 360000,
+            options: {
+                encrypt: false,
+                enableArithAbort: false
+            },
+        }
+    }   
+    return data;    
 };
-
 //console.log('database config');
 //console.log(process.env.SQL_master_PWD);
 //console.log(process.env.SQL_master_SERVER);
@@ -65,7 +92,8 @@ const assignParams = (request, inputs, outputs) => {
 
 const run = async (name, command, inputs = [], headers , outputs = []) => {
     //console.log(headers);
-    await connect(1);
+    //await connect(1);
+    await connect(headers);
     const request = pool.request();
     assignParams(request, inputs, outputs);
     return request[name](command);
@@ -73,7 +101,8 @@ const run = async (name, command, inputs = [], headers , outputs = []) => {
 
 const connect = async (dbid) => {
  console.log('coonect');
-    pool = new mssql.ConnectionPool(poolConfig(1));
+    //pool = new mssql.ConnectionPool(poolConfig(1));
+    pool = new mssql.ConnectionPool(poolConfig(dbid));
      console.log(!pool.connected)
     if (!pool.connected) {
         const SQL_DATABASE = process.env.SQL_DATABASE;
