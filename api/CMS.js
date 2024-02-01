@@ -774,4 +774,21 @@ router.post('/SendCMSActivationEmail',checkToken, async (req, res) => {
   }
 
 });
+router.post('/GetContentbytype', async (req, res) => {
+  try {
+    const cmd = 'Pr_GetContentbytype';
+    const result = await da.executeEntity(cmd, req.body, req.headers["dbid"]);
+    const c = await da.close();
+    res.json({
+      success: 200,
+      data: result.recordset
+    });
+  }
+  catch (error) {
+    const c = await da.close();
+    console.log(error)
+    res.status(500).json(error);
+  }
+
+});
 module.exports = router;
